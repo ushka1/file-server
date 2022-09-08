@@ -15,6 +15,10 @@ public class Storage {
     files.add(filename);
   }
 
+  public static void getFile(String filename) {
+
+  }
+
   public static void deleteFile(String filename) {
     files.remove(filename);
   }

@@ -2,43 +2,44 @@ package server;
 
 import java.util.Scanner;
 
+import server.Logger.LogMessages;
+
 public class Main {
 
-  private static void addFile(String filename) {
-    if (!Utils.filenameValid(filename)) {
-      System.out.println("Cannot add the file " + filename);
-      return;
-    }
+  private static Logger logger = new Logger();
 
-    if (Storage.fileExists(filename)) {
-      System.out.println("Cannot add the file " + filename);
+  private static void addFile(String filename) {
+    if (!Utils.filenameValid(filename) || Storage.fileExists(filename)) {
+      logger.log(LogMessages.FILE_ADD_FAILURE, filename);
       return;
     }
 
     Storage.addFile(filename);
-    System.out.println("The file " + filename + " added successfully");
+    logger.log(LogMessages.FILE_ADD_SUCCESS, filename);
   }
 
   private static void getFile(String filename) {
     if (!Storage.fileExists(filename)) {
-      System.out.println("The file " + filename + " not found");
+      logger.log(LogMessages.FILE_NOT_FOUND, filename);
       return;
     }
 
-    System.out.println("The file " + filename + " was sent");
+    Storage.getFile(filename);
+    logger.log(LogMessages.FILE_GET_SUCCESS, filename);
   }
 
   private static void deleteFile(String filename) {
     if (!Storage.fileExists(filename)) {
-      System.out.println("The file " + filename + " not found");
+      logger.log(LogMessages.FILE_NOT_FOUND, filename);
       return;
     }
 
     Storage.deleteFile(filename);
-    System.out.println("The file " + filename + " was deleted");
+    logger.log(LogMessages.FILE_DELETE_SUCCESS, filename);
   }
 
   public static void main(String[] args) {
+
     Scanner scanner = new Scanner(System.in);
 
     boolean run = true;
@@ -74,7 +75,7 @@ public class Main {
           break;
 
         default:
-          System.out.println("Command \"" + command + "\" does not exist");
+          logger.log(LogMessages.INVALID_COMMAND, command);
       }
     }
 
