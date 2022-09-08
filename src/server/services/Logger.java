@@ -1,4 +1,4 @@
-package server;
+package server.services;
 
 import java.text.MessageFormat;
 import java.util.Locale;
@@ -42,4 +42,5 @@ public class Logger {
     String output = formatter.format(args);
     System.out.println(output);
   }
+
 }

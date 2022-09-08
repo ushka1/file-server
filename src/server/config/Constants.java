@@ -1,4 +1,4 @@
-package server;
+package server.config;
 
 public class Constants {
 
