@@ -69,6 +69,8 @@ public class Main {
             case Constants.DELETE:
               deleteFile(filename);
               break;
+
+            default:
           }
 
           break;

@@ -33,7 +33,6 @@ public class Logger {
 
     if (!bundle.getLocale().equals(locale)) {
       log(LogMessages.INVALID_LOCALE, locale.toString());
-      return;
     }
   }
 
