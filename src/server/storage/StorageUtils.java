@@ -1,8 +1,8 @@
-package server.utils;
+package server.storage;
 
-public class Utils {
+public class StorageUtils {
 
-  private Utils() {
+  private StorageUtils() {
     //
   }
 

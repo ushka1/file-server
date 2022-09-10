@@ -1,91 +1,35 @@
 package server;
 
-import java.util.Scanner;
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
 
 import server.config.Constants;
-import server.services.Logger;
-import server.services.Logger.LogMessages;
-import server.services.Storage;
-import server.utils.Utils;
+import server.session.Session;
 
 public class Main {
 
-  private static Logger logger = new Logger();
-  private static Storage storage = new Storage();
-
-  private static void addFile(String filename) {
-    if (!Utils.filenameValid(filename) || storage.fileExists(filename)) {
-      logger.log(LogMessages.FILE_ADD_FAILURE, filename);
-      return;
-    }
-
-    storage.addFile(filename);
-    logger.log(LogMessages.FILE_ADD_SUCCESS, filename);
-  }
-
-  private static void getFile(String filename) {
-    if (!storage.fileExists(filename)) {
-      logger.log(LogMessages.FILE_NOT_FOUND, filename);
-      return;
-    }
-
-    storage.getFile(filename);
-    logger.log(LogMessages.FILE_GET_SUCCESS, filename);
-  }
-
-  private static void deleteFile(String filename) {
-    if (!storage.fileExists(filename)) {
-      logger.log(LogMessages.FILE_NOT_FOUND, filename);
-      return;
-    }
-
-    storage.deleteFile(filename);
-    logger.log(LogMessages.FILE_DELETE_SUCCESS, filename);
-  }
-
+  @SuppressWarnings({ "java:S2189", "java:S106" })
   public static void main(String[] args) {
-    Scanner scanner = new Scanner(System.in);
+    try (ServerSocket server = new ServerSocket(
+        Constants.PORT,
+        Constants.MAX_PENDING_CONNECTIONS,
+        InetAddress.getByName(Constants.ADDRESS))) {
 
-    boolean run = true;
-    while (run) {
+      System.out.println("Server started!");
 
-      String command = scanner.next().toLowerCase();
-      switch (command) {
-
-        case Constants.ADD:
-        case Constants.GET:
-        case Constants.DELETE: {
-          String filename = scanner.next();
-
-          switch (command) {
-            case Constants.ADD:
-              addFile(filename);
-              break;
-
-            case Constants.GET:
-              getFile(filename);
-              break;
-
-            case Constants.DELETE:
-              deleteFile(filename);
-              break;
-
-            default:
-          }
-
-          break;
-        }
-
-        case Constants.EXIT:
-          run = false;
-          break;
-
-        default:
-          logger.log(LogMessages.INVALID_COMMAND, command);
+      while (true) {
+        Socket socket = server.accept();
+        Session session = new Session(socket);
+        new Thread(session).start();
       }
-    }
 
-    scanner.close();
+    } catch (IOException e) {
+      System.out.println("Server encountered error: " + e.getMessage());
+    } finally {
+      System.out.println("Server stopped!");
+    }
   }
 
 }
