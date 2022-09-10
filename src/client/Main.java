@@ -5,13 +5,16 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.Scanner;
 
 import client.config.Constants;
 
 public class Main {
 
-  @SuppressWarnings({ "all" })
-  public static void main(String[] args) throws InterruptedException {
+  private static Scanner scanner = new Scanner(System.in);
+
+  @SuppressWarnings({ "java:S106" })
+  public static void main(String[] args) {
 
     try (Socket socket = new Socket(InetAddress.getByName(Constants.SERVER_ADDRESS), Constants.SERVER_PORT);
         DataInputStream input = new DataInputStream(socket.getInputStream());
@@ -19,17 +22,23 @@ public class Main {
 
       System.out.println("Client started!");
 
-      String message = "Give me everything you have!";
-      output.writeUTF(message);
-      System.out.println("Sent: " + message);
+      while (true) {
+        String message = scanner.nextLine();
+        output.writeUTF(message);
+        System.out.println("Sent: " + message);
 
-      String res = input.readUTF();
-      System.out.println("Received: " + res);
+        if (message.equals("exit"))
+          break;
+
+        String res = input.readUTF();
+        System.out.println("Received: " + res);
+      }
 
     } catch (IOException e) {
       System.out.println("Client encountered error: " + e.getMessage());
     }
 
+    System.out.println("Client terminated!");
   }
 
 }

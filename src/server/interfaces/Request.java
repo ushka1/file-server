@@ -6,4 +6,6 @@ public interface Request extends Translator {
 
   public String getParameter();
 
+  public boolean isTerminating();
+
 }

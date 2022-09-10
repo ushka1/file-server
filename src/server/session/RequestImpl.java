@@ -4,6 +4,7 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import server.config.Constants;
 import server.interfaces.Request;
 
 public class RequestImpl implements Request {
@@ -13,6 +14,7 @@ public class RequestImpl implements Request {
   private Locale locale;
   private String command = "";
   private String parameter = "";
+  private boolean terminating = false;
 
   public RequestImpl(String input) {
     this(input, Locale.ENGLISH);
@@ -38,6 +40,11 @@ public class RequestImpl implements Request {
     return parameter;
   }
 
+  @Override
+  public boolean isTerminating() {
+    return terminating;
+  }
+
   private void parseInput(String input) {
     Matcher matcher = INPUT_PATTERN.matcher(input.trim());
 
@@ -52,6 +59,9 @@ public class RequestImpl implements Request {
 
       i++;
     }
+
+    if (command.equals(Constants.EXIT))
+      terminating = true;
   }
 
 }
