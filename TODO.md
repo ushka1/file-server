@@ -1,1 +1,12 @@
-1. In `Logger` logic responsible for retreiving and formatting messages from `messages.properties` and logic responsible for printing messages could be divided into two classes.
+### In Development
+
+### To Do
+
+- Add logger
+
+### Backlog
+
+- Add `JAspect` and add validators.
+- Add build and run scripts.
+- Add Dockerfile.
+- Add example Docker-Compose.
