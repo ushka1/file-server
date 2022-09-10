@@ -4,8 +4,8 @@ public interface Request extends Translator {
 
   public String getCommand();
 
-  public String getParameter();
+  public String[] getParameters();
 
-  public boolean isTerminating();
+  public String[] getOptions();
 
 }

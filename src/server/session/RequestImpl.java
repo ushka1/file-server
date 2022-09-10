@@ -1,20 +1,19 @@
 package server.session;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import server.config.Constants;
+import server.i18n.I18nKey;
+import server.interfaces.InputParser;
 import server.interfaces.Request;
 
 public class RequestImpl implements Request {
 
-  private static final Pattern INPUT_PATTERN = Pattern.compile("(\\w+)|(-\\w+)");
-
   private Locale locale;
   private String command = "";
-  private String parameter = "";
-  private boolean terminating = false;
+  private List<String> parameters = new ArrayList<>();
+  private List<String> options = new ArrayList<>();
 
   public RequestImpl(String input) {
     this(input, Locale.ENGLISH);
@@ -22,7 +21,15 @@ public class RequestImpl implements Request {
 
   public RequestImpl(String input, Locale locale) {
     this.locale = locale;
-    parseInput(input);
+
+    InputParser parser = new InputParserImpl(input);
+    if (!parser.getUnrecognized().isEmpty()) {
+      throw new IllegalArgumentException(t(I18nKey.INVALID_INPUT, parser.getUnrecognized().get(0)));
+    }
+
+    this.command = parser.getCommand();
+    this.parameters = parser.getParameters();
+    this.options = parser.getOptions();
   }
 
   @Override
@@ -36,32 +43,13 @@ public class RequestImpl implements Request {
   }
 
   @Override
-  public String getParameter() {
-    return parameter;
+  public String[] getParameters() {
+    return parameters.toArray(new String[parameters.size()]);
   }
 
   @Override
-  public boolean isTerminating() {
-    return terminating;
-  }
-
-  private void parseInput(String input) {
-    Matcher matcher = INPUT_PATTERN.matcher(input.trim());
-
-    int i = 0;
-    while (matcher.find()) {
-      if (i == 0)
-        command = matcher.group();
-      else if (i == 1)
-        parameter = matcher.group();
-      else
-        break;
-
-      i++;
-    }
-
-    if (command.equals(Constants.EXIT))
-      terminating = true;
+  public String[] getOptions() {
+    return options.toArray(new String[options.size()]);
   }
 
 }

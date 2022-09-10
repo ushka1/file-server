@@ -10,7 +10,7 @@ import server.session.Session;
 
 public class Main {
 
-  @SuppressWarnings({ "java:S2189", "java:S106" })
+  @SuppressWarnings({ "java:S106" })
   public static void main(String[] args) {
     try (ServerSocket server = new ServerSocket(
         Constants.PORT,
@@ -19,14 +19,14 @@ public class Main {
 
       System.out.println("Server started!");
 
-      while (true) {
+      while (!server.isClosed()) {
         Socket socket = server.accept();
         Session session = new Session(socket);
         new Thread(session).start();
       }
 
     } catch (IOException e) {
-      System.out.println("Server encountered error: " + e.getMessage());
+      System.out.println("ERROR [server]: " + e.getMessage());
     } finally {
       System.out.println("Server stopped!");
     }

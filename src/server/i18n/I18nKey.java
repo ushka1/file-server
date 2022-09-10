@@ -7,6 +7,7 @@ public enum I18nKey {
   FILE_GET_SUCCESS("file_get_success"),
   FILE_DELETE_SUCCESS("file_delete_success"),
   FILE_NOT_FOUND("file_not_found"),
+  INVALID_INPUT("invalid_input"),
   INVALID_COMMAND("invalid_command"),
   INVALID_LOCALE("invalid_locale");
 

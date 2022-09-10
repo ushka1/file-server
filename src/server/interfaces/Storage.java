@@ -1,4 +1,4 @@
-package server.storage;
+package server.interfaces;
 
 public interface Storage {
 

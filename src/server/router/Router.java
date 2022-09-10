@@ -15,6 +15,8 @@ public class Router {
     return INSTANCE;
   }
 
+  /* ============================================================ */
+
   private Router() {
     //
   }
@@ -32,9 +34,6 @@ public class Router {
 
       case Constants.DELETE:
         STORAGE_CONTROLLER.deleteFile(req, res);
-        break;
-
-      case Constants.EXIT:
         break;
 
       default:

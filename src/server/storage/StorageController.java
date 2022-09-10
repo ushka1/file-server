@@ -3,10 +3,11 @@ package server.storage;
 import server.i18n.I18nKey;
 import server.interfaces.Request;
 import server.interfaces.Response;
+import server.interfaces.Storage;
 
 public class StorageController {
 
-  private static final StorageController INSTANCE = new StorageController(new HashSetStorage());
+  private static final StorageController INSTANCE = new StorageController(new StorageImpl());
 
   public static StorageController getInstance() {
     return INSTANCE;
@@ -21,7 +22,7 @@ public class StorageController {
   }
 
   public void addFile(Request req, Response res) {
-    String filename = req.getParameter();
+    String filename = req.getParameters()[0];
 
     if (!StorageUtils.filenameValid(filename) || storage.fileExists(filename)) {
       res.write(req.t(I18nKey.FILE_ADD_FAILURE, filename));
@@ -33,7 +34,7 @@ public class StorageController {
   }
 
   public void getFile(Request req, Response res) {
-    String filename = req.getParameter();
+    String filename = req.getParameters()[0];
 
     if (!storage.fileExists(filename)) {
       res.write(req.t(I18nKey.FILE_NOT_FOUND, filename));
@@ -45,7 +46,7 @@ public class StorageController {
   }
 
   public void deleteFile(Request req, Response res) {
-    String filename = req.getParameter();
+    String filename = req.getParameters()[0];
 
     if (!storage.fileExists(filename)) {
       res.write(req.t(I18nKey.FILE_NOT_FOUND, filename));

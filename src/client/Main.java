@@ -22,20 +22,20 @@ public class Main {
 
       System.out.println("Client started!");
 
-      while (true) {
+      while (!socket.isClosed()) {
         String message = scanner.nextLine();
+        if (message.equals(Constants.EXIT))
+          break;
+
         output.writeUTF(message);
         System.out.println("Sent: " + message);
-
-        if (message.equals("exit"))
-          break;
 
         String res = input.readUTF();
         System.out.println("Received: " + res);
       }
 
     } catch (IOException e) {
-      System.out.println("Client encountered error: " + e.getMessage());
+      System.out.println("ERROR: " + e.getMessage());
     }
 
     System.out.println("Client terminated!");
