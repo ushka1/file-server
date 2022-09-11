@@ -21,8 +21,12 @@ public class StorageController {
     this.storage = storage;
   }
 
+  private String extractFilename(Request req) {
+    return req.getParameters().length == 0 ? "" : req.getParameters()[0];
+  }
+
   public void addFile(Request req, Response res) {
-    String filename = req.getParameters()[0];
+    String filename = extractFilename(req);
 
     if (!StorageUtils.filenameValid(filename) || storage.fileExists(filename)) {
       res.write(req.t(I18nKey.FILE_ADD_FAILURE, filename));
@@ -34,7 +38,7 @@ public class StorageController {
   }
 
   public void getFile(Request req, Response res) {
-    String filename = req.getParameters()[0];
+    String filename = extractFilename(req);
 
     if (!storage.fileExists(filename)) {
       res.write(req.t(I18nKey.FILE_NOT_FOUND, filename));
@@ -46,7 +50,7 @@ public class StorageController {
   }
 
   public void deleteFile(Request req, Response res) {
-    String filename = req.getParameters()[0];
+    String filename = extractFilename(req);
 
     if (!storage.fileExists(filename)) {
       res.write(req.t(I18nKey.FILE_NOT_FOUND, filename));

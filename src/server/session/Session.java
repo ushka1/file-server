@@ -5,13 +5,17 @@ import java.io.DataOutputStream;
 import java.io.EOFException;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.Arrays;
+import java.util.logging.Logger;
 
 import server.interfaces.Request;
 import server.interfaces.Response;
 import server.router.Router;
+import shared.logger.MyLogger;
 
 public class Session implements Runnable {
 
+  private static Logger logger = MyLogger.getInstance();
   private static final Router ROUTER = Router.getInstance();
 
   private Socket socket;
@@ -21,9 +25,8 @@ public class Session implements Runnable {
   }
 
   @Override
-  @SuppressWarnings({ "java:S106", "java:S1192" })
   public void run() {
-    System.out.println("New client connected!");
+    logger.info("New client connected!");
 
     try (DataInputStream input = new DataInputStream(socket.getInputStream());
         DataOutputStream output = new DataOutputStream(socket.getOutputStream())) {
@@ -31,46 +34,46 @@ public class Session implements Runnable {
       handleConnection(input, output);
 
     } catch (EOFException e) {
-      System.out.println("Client disconnected!");
+      logger.info("Client disconnected!");
     } catch (IOException e) {
-      System.out.println("ERROR [socket]: " + e.getMessage());
+      logger.severe(e.getMessage());
     } finally {
       closeSocket();
     }
   }
 
-  @SuppressWarnings({ "java:S106" })
   private void handleConnection(DataInputStream input, DataOutputStream output) throws IOException {
-
     while (!socket.isClosed()) {
       String userInput = input.readUTF();
-      System.out.println("Received: " + userInput);
+      logger.info(() -> "Received: " + userInput);
 
       try {
         Request req = new RequestImpl(userInput);
         Response res = new ResponseImpl();
 
-        // log with params etc
+        logger.info(() -> "Parsed:"
+            + "\n\tcommand: " + req.getCommand()
+            + "\n\tparams: " + Arrays.toString(req.getParameters())
+            + "\n\toptions: " + Arrays.toString(req.getOptions()));
 
         ROUTER.route(req, res);
 
         output.writeUTF(res.read());
-        System.out.println("Sent: " + res.read());
+        logger.info(() -> "Sent: " + res.read());
       } catch (IllegalArgumentException e) {
         output.writeUTF(e.getMessage());
-        System.out.println("ERROR [socket]: " + e.getMessage());
+        logger.severe(e.getMessage());
       }
     }
   }
 
-  @SuppressWarnings({ "java:S106" })
   private void closeSocket() {
     try {
       socket.close();
     } catch (IOException e) {
-      System.out.println("ERROR [socket]: " + e.getMessage());
+      logger.severe(e.getMessage());
     } finally {
-      System.out.println("Socket closed!");
+      logger.info("Socket closed!");
     }
   }
 

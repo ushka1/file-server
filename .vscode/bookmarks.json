@@ -1,0 +1,24 @@
+{
+	"files": [
+		{
+			"path": "src/server/Main.java",
+			"bookmarks": [
+				{
+					"line": 12,
+					"column": 19,
+					"label": "server"
+				}
+			]
+		},
+		{
+			"path": "src/client/Main.java",
+			"bookmarks": [
+				{
+					"line": 13,
+					"column": 19,
+					"label": "client"
+				}
+			]
+		}
+	]
+}
