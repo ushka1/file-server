@@ -35,6 +35,12 @@ public class Main {
         logger.info(() -> "Received: " + res);
       }
 
+      // socket.setSoTimeout(1000);
+      // while (true) {
+      // String res = input.readUTF();
+      // logger.info(() -> "Received: " + res);
+      // }
+
     } catch (IOException e) {
       logger.severe(e.getMessage());
     }

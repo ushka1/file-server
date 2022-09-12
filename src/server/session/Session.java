@@ -28,6 +28,8 @@ public class Session implements Runnable {
   public void run() {
     logger.info("New client connected!");
 
+    // socket.setSoTimeout(timeout);
+
     try (DataInputStream input = new DataInputStream(socket.getInputStream());
         DataOutputStream output = new DataOutputStream(socket.getOutputStream())) {
 
@@ -37,6 +39,7 @@ public class Session implements Runnable {
       logger.info("Client disconnected!");
     } catch (IOException e) {
       logger.severe(e.getMessage());
+      e.printStackTrace();
     } finally {
       closeSocket();
     }
@@ -46,6 +49,8 @@ public class Session implements Runnable {
     while (!socket.isClosed()) {
       String userInput = input.readUTF();
       logger.info(() -> "Received: " + userInput);
+
+      // input.skip(input.available());
 
       try {
         Request req = new RequestImpl(userInput);

@@ -1,20 +1,20 @@
-### In Development
+## In Development
 
-- Change communication from string-based to byte-based.
+- HTTP inspired communication.
 
-### To Do
+## To Do
 
 - Write tests.
-- Add TextField implementation with `:qa` ending.
+- Add TextField implementation (with `:qa` ending) if user didn't passed filename.
 
-### Backlog
+## Backlog
 
 - Add `JAspect` and add validators.
 - Add Dockerfile and Docker-Compose.
 - Rework Request and Response.
 - Rework build and run scripts.
 
-### Done
+## Done
 
 - Detect disconnect https://www.alpharithms.com/detecting-client-disconnections-java-sockets-091416/.
 - Rework request parsing.
