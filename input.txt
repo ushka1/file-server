@@ -1,0 +1,6 @@
+get file1
+add file1
+get file1
+delete file1
+get file1
+exit

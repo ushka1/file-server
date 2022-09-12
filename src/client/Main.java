@@ -23,7 +23,7 @@ public class Main {
 
       logger.info("Client started!");
 
-      while (!socket.isClosed()) {
+      while (!socket.isClosed() && scanner.hasNextLine()) {
         String message = scanner.nextLine();
         if (message.equals(Constants.EXIT))
           break;

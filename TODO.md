@@ -1,20 +1,23 @@
 ### In Development
 
+- Change communication from string-based to byte-based.
+
 ### To Do
 
-- Write tests
-- Add logger
-- Merge input/output into request/response. Everytime create new req(input)/res(output), and use them!
+- Write tests.
+- Add TextField implementation with `:qa` ending.
 
 ### Backlog
 
-- Thread-safety Read/Write
 - Add `JAspect` and add validators.
-- Add build and run scripts.
-- Add Dockerfile.
-- Add example Docker-Compose.
+- Add Dockerfile and Docker-Compose.
+- Rework Request and Response.
+- Rework build and run scripts.
 
 ### Done
 
-- Detect disconnect https://www.alpharithms.com/detecting-client-disconnections-java-sockets-091416/
-- Better request parsing
+- Detect disconnect https://www.alpharithms.com/detecting-client-disconnections-java-sockets-091416/.
+- Rework request parsing.
+- Add build and run scripts.
+- Add logger.
+- Add thread-safety to write and delete operations.
