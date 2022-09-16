@@ -1,4 +1,4 @@
-package shared.logger;
+package server.logger;
 
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Formatter;
@@ -6,23 +6,23 @@ import java.util.logging.Logger;
 
 public class MyLogger {
 
-  private static final Logger INSTANCE = Logger.getLogger(MyLogger.class.getName());
-  private static boolean ready = false;
+  private static final Logger instance = Logger.getLogger(MyLogger.class.getName());
+  private static boolean initialized = false;
 
   public static Logger getInstance() {
-    if (!ready) {
+    if (!initialized) {
       init();
-      ready = true;
+      initialized = true;
     }
 
-    return INSTANCE;
+    return instance;
   }
 
   private static void init() {
-    INSTANCE.setUseParentHandlers(false);
+    instance.setUseParentHandlers(false);
 
     ConsoleHandler handler = new ConsoleHandler();
-    INSTANCE.addHandler(handler);
+    instance.addHandler(handler);
 
     Formatter formatter = new MyFormatter();
     handler.setFormatter(formatter);

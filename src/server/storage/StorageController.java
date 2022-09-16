@@ -1,19 +1,20 @@
 package server.storage;
 
+import java.io.File;
+
 import server.i18n.I18nKey;
 import server.interfaces.Request;
 import server.interfaces.Response;
 import server.interfaces.Storage;
 
+@SuppressWarnings("java:S1192")
 public class StorageController {
 
-  private static final StorageController INSTANCE = new StorageController(new StorageImpl());
+  private static final StorageController instance = new StorageController(StorageImpl.getInstance());
 
   public static StorageController getInstance() {
-    return INSTANCE;
+    return instance;
   }
-
-  /* ============================================================ */
 
   private Storage storage;
 
@@ -21,44 +22,47 @@ public class StorageController {
     this.storage = storage;
   }
 
-  private String extractFilename(Request req) {
-    return req.getParameters().length == 0 ? "" : req.getParameters()[0];
+  public void getFile(Request req, Response res) {
+    String filename = req.getParams().getOrDefault("file-name", "");
+    File file = storage.getFile(filename);
+
+    if (file != null) {
+      res.setStatusCode(200);
+      res.setParam("message", req.t(I18nKey.FILE_GET_SUCCESS, filename));
+      res.setFile(file);
+    } else {
+      res.setStatusCode(404);
+      res.setParam("message", req.t(I18nKey.FILE_NOT_FOUND, filename));
+    }
+
+    res.send();
   }
 
   public void addFile(Request req, Response res) {
-    String filename = extractFilename(req);
+    String filename = req.getParams().getOrDefault("file-name", "");
 
-    if (!StorageUtils.filenameValid(filename) || storage.fileExists(filename)) {
-      res.write(req.t(I18nKey.FILE_ADD_FAILURE, filename));
-      return;
+    if (storage.addFile(filename, req.getTempFile())) {
+      res.setStatusCode(200);
+      res.setParam("message", req.t(I18nKey.FILE_ADD_SUCCESS, filename));
+    } else {
+      res.setStatusCode(403);
+      res.setParam("message", req.t(I18nKey.FILE_ADD_FAILURE, filename));
     }
 
-    storage.addFile(filename);
-    res.write(req.t(I18nKey.FILE_ADD_SUCCESS, filename));
-  }
-
-  public void getFile(Request req, Response res) {
-    String filename = extractFilename(req);
-
-    if (!storage.fileExists(filename)) {
-      res.write(req.t(I18nKey.FILE_NOT_FOUND, filename));
-      return;
-    }
-
-    storage.getFile(filename);
-    res.write(req.t(I18nKey.FILE_GET_SUCCESS, filename));
+    res.send();
   }
 
   public void deleteFile(Request req, Response res) {
-    String filename = extractFilename(req);
+    String filename = req.getParams().getOrDefault("file-name", "");
 
-    if (!storage.fileExists(filename)) {
-      res.write(req.t(I18nKey.FILE_NOT_FOUND, filename));
-      return;
+    if (storage.deleteFile(filename)) {
+      res.setStatusCode(200);
+      res.setParam("message", req.t(I18nKey.FILE_DELETE_SUCCESS, filename));
+    } else {
+      res.setStatusCode(404);
+      res.setParam("message", req.t(I18nKey.FILE_DELETE_FAILURE, filename));
     }
 
-    storage.deleteFile(filename);
-    res.write(req.t(I18nKey.FILE_DELETE_SUCCESS, filename));
+    res.send();
   }
-
 }

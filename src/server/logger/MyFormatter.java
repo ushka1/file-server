@@ -1,4 +1,4 @@
-package shared.logger;
+package server.logger;
 
 import java.util.logging.Formatter;
 import java.util.logging.LogRecord;

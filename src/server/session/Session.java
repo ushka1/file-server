@@ -5,18 +5,19 @@ import java.io.DataOutputStream;
 import java.io.EOFException;
 import java.io.IOException;
 import java.net.Socket;
-import java.util.Arrays;
 import java.util.logging.Logger;
 
+import server.Main;
 import server.interfaces.Request;
 import server.interfaces.Response;
+import server.logger.MyLogger;
 import server.router.Router;
-import shared.logger.MyLogger;
 
 public class Session implements Runnable {
 
-  private static Logger logger = MyLogger.getInstance();
-  private static final Router ROUTER = Router.getInstance();
+  private static final int SOCKET_TIMEOUT = 1 * 60 * 1000;
+  private static final Logger logger = MyLogger.getInstance();
+  private static final Router router = Router.getInstance();
 
   private Socket socket;
 
@@ -28,11 +29,10 @@ public class Session implements Runnable {
   public void run() {
     logger.info("New client connected!");
 
-    // socket.setSoTimeout(timeout);
-
     try (DataInputStream input = new DataInputStream(socket.getInputStream());
         DataOutputStream output = new DataOutputStream(socket.getOutputStream())) {
 
+      socket.setSoTimeout(SOCKET_TIMEOUT);
       handleConnection(input, output);
 
     } catch (EOFException e) {
@@ -47,28 +47,36 @@ public class Session implements Runnable {
 
   private void handleConnection(DataInputStream input, DataOutputStream output) throws IOException {
     while (!socket.isClosed()) {
-      String userInput = input.readUTF();
-      logger.info(() -> "Received: " + userInput);
 
-      // input.skip(input.available());
+      RequestParser parser = new RequestParser(input);
+      parser.receiveInput();
 
-      try {
-        Request req = new RequestImpl(userInput);
-        Response res = new ResponseImpl();
-
-        logger.info(() -> "Parsed:"
-            + "\n\tcommand: " + req.getCommand()
-            + "\n\tparams: " + Arrays.toString(req.getParameters())
-            + "\n\toptions: " + Arrays.toString(req.getOptions()));
-
-        ROUTER.route(req, res);
-
-        output.writeUTF(res.read());
-        logger.info(() -> "Sent: " + res.read());
-      } catch (IllegalArgumentException e) {
-        output.writeUTF(e.getMessage());
-        logger.severe(e.getMessage());
+      // XXX
+      if (parser.getMethod().equals("EXIT")) {
+        Main.kill();
+        break;
       }
+
+      RequestImpl.Builder reqBuilder = new RequestImpl.Builder();
+      reqBuilder
+          .method(parser.getMethod())
+          .path(parser.getPath())
+          .params(parser.getParams())
+          .tempFile(parser.getTempFile());
+
+      // additional request configuration
+
+      Request req = new RequestImpl(reqBuilder);
+      Response res = new ResponseImpl(output);
+
+      if (parser.getError() != null) {
+        res.setStatusCode(400);
+        res.setParam("message", parser.getError());
+        res.send();
+        continue;
+      }
+
+      router.route(req, res);
     }
   }
 
@@ -77,6 +85,7 @@ public class Session implements Runnable {
       socket.close();
     } catch (IOException e) {
       logger.severe(e.getMessage());
+      e.printStackTrace();
     } finally {
       logger.info("Socket closed!");
     }

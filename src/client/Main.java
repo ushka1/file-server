@@ -6,14 +6,12 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.Scanner;
-import java.util.logging.Logger;
 
 import client.config.Constants;
-import shared.logger.MyLogger;
 
+@SuppressWarnings({ "java:S106", "java:S1192" })
 public class Main {
 
-  private static Logger logger = MyLogger.getInstance();
   private static Scanner scanner = new Scanner(System.in);
 
   public static void main(String[] args) {
@@ -21,30 +19,12 @@ public class Main {
         DataInputStream input = new DataInputStream(socket.getInputStream());
         DataOutputStream output = new DataOutputStream(socket.getOutputStream())) {
 
-      logger.info("Client started!");
-
-      while (!socket.isClosed() && scanner.hasNextLine()) {
-        String message = scanner.nextLine();
-        if (message.equals(Constants.EXIT))
-          break;
-
-        output.writeUTF(message);
-        logger.info(() -> "Sent: " + message);
-
-        String res = input.readUTF();
-        logger.info(() -> "Received: " + res);
-      }
-
-      // socket.setSoTimeout(1000);
-      // while (true) {
-      // String res = input.readUTF();
-      // logger.info(() -> "Received: " + res);
-      // }
+      String choice = Handlers.sendRequest(output, scanner);
+      Handlers.receiveResponse(input, choice);
 
     } catch (IOException e) {
-      logger.severe(e.getMessage());
+      System.out.println(e.getMessage());
     }
-    logger.info("Client terminated!");
   }
 
 }

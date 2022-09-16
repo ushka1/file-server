@@ -9,11 +9,11 @@ import java.util.ResourceBundle;
 public class I18n {
 
   private static final String RESOURCE_BASE_NAME = "server.resources.messages";
-  private static final Locale DEFAULT_LOCALE = Locale.ENGLISH;
-  private static final I18n INSTANCE = new I18n();
+  public static final Locale DEFAULT_LOCALE = Locale.ENGLISH;
+  private static final I18n instance = new I18n();
 
   public static I18n getInstance() {
-    return INSTANCE;
+    return instance;
   }
 
   /* ============================================================ */

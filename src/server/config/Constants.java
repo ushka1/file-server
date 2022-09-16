@@ -6,10 +6,9 @@ public class Constants {
     //
   }
 
-  public static final String GET = "get";
-  public static final String ADD = "add";
-  public static final String DELETE = "delete";
-  public static final String EXIT = "exit";
+  public static final String GET = "GET";
+  public static final String POST = "POST";
+  public static final String DELETE = "DELETE";
 
   public static final String ADDRESS = "127.0.0.1";
   public static final int PORT = 23456;

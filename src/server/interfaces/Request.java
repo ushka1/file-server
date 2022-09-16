@@ -1,11 +1,16 @@
 package server.interfaces;
 
+import java.io.File;
+import java.util.Map;
+
 public interface Request extends Translator {
 
-  public String getCommand();
+  public String getMethod();
 
-  public String[] getParameters();
+  public String getPath();
 
-  public String[] getOptions();
+  public Map<String, String> getParams();
+
+  public File getTempFile();
 
 }

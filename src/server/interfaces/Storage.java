@@ -1,12 +1,12 @@
 package server.interfaces;
 
+import java.io.File;
+
 public interface Storage {
 
-  public boolean fileExists(String filename);
+  public File getFile(String filename);
 
-  public void getFile(String filename);
-
-  public boolean addFile(String filename);
+  public boolean addFile(String filename, File file);
 
   public boolean deleteFile(String filename);
 

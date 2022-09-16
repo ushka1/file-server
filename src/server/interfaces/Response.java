@@ -1,9 +1,15 @@
 package server.interfaces;
 
+import java.io.File;
+
 public interface Response {
 
-  public String read();
+  public void send();
 
-  public void write(String text);
+  public void setStatusCode(int statusCode);
+
+  public void setParam(String key, String value);
+
+  public void setFile(File file);
 
 }

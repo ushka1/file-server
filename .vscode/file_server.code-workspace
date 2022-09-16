@@ -1,0 +1,21 @@
+{
+  "folders": [
+    {
+      "path": ".."
+    }
+    // {
+    //   "path": "../src/server/interfaces"
+    // },
+    // {
+    //   "path": "../src/server/storage"
+    // }
+  ],
+  "settings": {
+    "java.project.sourcePaths": ["src"],
+    "java.project.outputPath": "bin",
+    "java.project.referencedLibraries": ["lib/**/*.jar"]
+    // "java.test.config": {
+    //   "workingDirectory": "data/test"
+    // }
+  }
+}
