@@ -22,7 +22,6 @@ public class RequestParser {
   private String path;
   private Map<String, String> params = new HashMap<>();
   private File tempFile;
-  private String error = null;
 
   public RequestParser(DataInputStream input) {
     if (!TEMP_DIR.exists())
@@ -47,25 +46,16 @@ public class RequestParser {
     return tempFile;
   }
 
-  public String getError() {
-    return error;
-  }
-
   public void receiveInput() throws IOException {
-    try {
-      String startLine = input.readUTF();
-      parseStartLine(startLine);
+    String startLine = input.readUTF();
+    parseStartLine(startLine);
 
-      String param;
-      while (!(param = input.readUTF()).equals(""))
-        parseParam(param);
+    String param;
+    while (!(param = input.readUTF()).equals(""))
+      parseParam(param);
 
-      if (method.equals("POST"))
-        receiveFile();
-
-    } catch (IllegalArgumentException e) {
-      error = e.getMessage();
-    }
+    if (method.equals("POST"))
+      receiveFile();
   }
 
   private void parseStartLine(String startLine) {

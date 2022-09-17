@@ -14,10 +14,10 @@ import client.implementations.ResponseImpl;
 import client.interfaces.Request;
 import client.interfaces.Response;
 
-@SuppressWarnings({ "java:S106", "java:S1192" })
+@SuppressWarnings({ "java:S106" })
 public class Main {
 
-  private static Scanner scanner = new Scanner(System.in);
+  private static final Scanner scanner = new Scanner(System.in);
 
   public static void main(String[] args) {
     try (Socket socket = new Socket(InetAddress.getByName(Constants.SERVER_ADDRESS), Constants.SERVER_PORT);
@@ -62,13 +62,14 @@ public class Main {
       }
 
       req.send();
+      System.out.println("The request was sent.");
 
       /* ============================================================ */
 
       Response res = new ResponseImpl(input);
       res.receive();
 
-      System.out.println(res.getStatusCode());
+      System.out.println(res.getParam("message"));
 
     } catch (IOException e) {
       System.out.println(e.getMessage());

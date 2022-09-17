@@ -23,6 +23,15 @@ public class StorageImpl implements Storage {
   }
 
   @Override
+  public File getFile(String filename) {
+    File file = new File(DATA_DIR, filename);
+    if (file.exists())
+      return file;
+    else
+      return null;
+  }
+
+  @Override
   public synchronized boolean addFile(String filename, File file) {
     File target = new File(DATA_DIR, filename);
     if (target.exists())
@@ -50,19 +59,6 @@ public class StorageImpl implements Storage {
     }
 
     return true;
-  }
-
-  // BUG
-  // when another thread deletes or writes to that file and response is
-  // reading it we have problem
-  // possible solution - creating temporary file
-  @Override
-  public File getFile(String filename) {
-    File file = new File(DATA_DIR, filename);
-    if (file.exists())
-      return file;
-    else
-      return null;
   }
 
 }

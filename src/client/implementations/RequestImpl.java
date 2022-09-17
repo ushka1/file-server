@@ -39,16 +39,16 @@ public class RequestImpl implements Request {
 
   @Override
   public void setFile(File file) {
+    if (file == null || !file.exists())
+      return;
+
     this.file = file;
+    params.put("file-name", file.getName());
+    params.put("file-size", file.length() + "");
   }
 
   @Override
   public void send() throws IOException {
-    if (method.equals("POST") && file != null && file.exists()) {
-      params.put("file-name", file.getName());
-      params.put("file-size", file.length() + "");
-    }
-
     output.writeUTF(method + " " + path);
 
     for (var param : params.entrySet()) {

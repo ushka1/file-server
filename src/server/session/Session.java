@@ -36,7 +36,7 @@ public class Session implements Runnable {
 
     } catch (EOFException e) {
       logger.info("Client disconnected!");
-    } catch (IOException e) {
+    } catch (IOException | IllegalArgumentException e) {
       logger.severe(e.getMessage());
       e.printStackTrace();
     } finally {
@@ -44,46 +44,26 @@ public class Session implements Runnable {
     }
   }
 
-  @SuppressWarnings("java:S2095")
   private void handleConnection(DataInputStream input, DataOutputStream output) throws IOException {
     while (!socket.isClosed()) {
 
       RequestParser parser = new RequestParser(input);
       parser.receiveInput();
 
-      RequestImpl.Builder reqBuilder = new RequestImpl.Builder();
-      reqBuilder
+      RequestImpl.Builder builder = new RequestImpl.Builder();
+      builder
           .method(parser.getMethod())
           .path(parser.getPath())
           .params(parser.getParams())
           .tempFile(parser.getTempFile());
 
-      // additional request configuration
+      // TODO additional request configuration
 
-      Request req = new RequestImpl(reqBuilder);
-      Response res = new ResponseImpl(output);
+      try (Request req = new RequestImpl(builder);
+          Response res = new ResponseImpl(output)) {
 
-      if (parser.getError() != null) {
-        res.setStatusCode(400);
-        res.setParam("message", parser.getError());
+        router.route(req, res);
         res.send();
-        continue;
-      }
-
-      router.route(req, res);
-
-      try {
-        res.send();
-      } catch (IOException e) {
-        logger.severe(e.getMessage());
-        e.printStackTrace();
-      }
-
-      try {
-        req.close();
-      } catch (Exception e) {
-        logger.severe(e.getMessage());
-        e.printStackTrace();
       }
     }
   }

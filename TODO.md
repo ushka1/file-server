@@ -31,21 +31,16 @@ POST <path>
 
 ## To Do
 
-- When you getFile() and File instance is associated with res, content of file is not immediately read, but waits for response to send(), so if someone would remove that file, then we have problem. Also there is problem with reading/writing by others while this file will be read by Response.
-- Error handling (StorageController)
 - Write tests.
+- LOCK per filename in StorageImpl, when some request holds reference to a file it is locked and thread is waiting (.wait(), .interrupt() etc) - OWN IMPLEMENTATION D:
 
 ## Backlog
 
+- Ask stackoverflow about file get/delete/add and synchronization
 - Replace `writeUTF` with something different.
 - Param validation.
 - Add `JAspect` and add validators.
-- Add Dockerfile and Docker-Compose.
-- Rework build and run scripts.
 - Make notes about byte[] -> String -> byte[] and String -> byte[] -> String.
-- Further investgate HTTP request (with multipart especially).
-- Improve streams https://docs.oracle.com/javase/tutorial/essential/io/datastreams.html
-- Add TextField implementation (with `:qa` ending) if user didn't passed filename.
 
 ## Done
 

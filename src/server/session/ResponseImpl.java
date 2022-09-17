@@ -37,22 +37,21 @@ public class ResponseImpl implements Response {
 
   @Override
   public void setFile(File file) {
+    if (file == null || !file.exists())
+      return;
+
     this.file = file;
+    params.put("file-name", file.getName());
+    params.put("file-size", file.length() + "");
+
   }
 
-  // BUG file read should have own try-catch and if file not read/found then set
-  // content-length to 0 or somethign
   @Override
   public void send() throws IOException {
     if (sent) {
       return;
     }
     sent = true;
-
-    if (file != null && file.exists()) {
-      params.put("file-name", file.getName());
-      params.put("file-size", file.length() + "");
-    }
 
     output.writeUTF(statusCode + "");
 
@@ -73,6 +72,11 @@ public class ResponseImpl implements Response {
     }
 
     logger.info("Send: " + statusCode);
+  }
+
+  @Override
+  public void close() throws IOException {
+    // TODO something with releasing file if hold
   }
 
 }

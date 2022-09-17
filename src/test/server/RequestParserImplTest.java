@@ -16,7 +16,6 @@ import org.junit.Test;
 
 import server.session.RequestParser;
 
-@SuppressWarnings({ "java:S5960" })
 public class RequestParserImplTest {
 
   private static final String METHOD = "POST";

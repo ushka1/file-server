@@ -1,6 +1,7 @@
 package server.session;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Locale;
@@ -51,7 +52,7 @@ public class RequestImpl implements Request {
   }
 
   @Override
-  public void close() throws Exception {
+  public void close() throws IOException {
     if (tempFile != null && tempFile.exists())
       Files.delete(tempFile.toPath());
   }

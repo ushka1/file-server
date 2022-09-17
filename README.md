@@ -1,21 +1,18 @@
-## Getting Started
+# File Server
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+## Intro
 
-## Folder Structure
+Simple file server with client. Server is able to store all types of files.
 
-The workspace contains two folders by default, where:
+## Requirements
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+- Java version: `18`
 
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
+## Setup
 
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
+Run `build.sh` script in order to build project. Next you can start services using `start_client.sh` and `start_server.sh` scripts.
 
-## Dependency Management
-
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+Alternatively you can open project in VSCode with installed [Extension Pack for Java](https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-java-pack), then you can omit build part because extension will do it for you. You can start services using above scripts, using `launch.json` tasks in **Run and Debug** tab or using VSCode **Run/Debug Java** button.
 
 ## Request Structure
 

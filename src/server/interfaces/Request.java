@@ -1,8 +1,9 @@
 package server.interfaces;
 
+import java.io.Closeable;
 import java.io.File;
 
-public interface Request extends Translator, AutoCloseable {
+public interface Request extends Translator, Closeable {
 
   public String getMethod();
 
