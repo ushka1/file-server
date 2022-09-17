@@ -19,6 +19,5 @@ public class NotFoundController {
   public void handle(Request req, Response res) {
     res.setStatusCode(404);
     res.setParam("message", req.t(I18nKey.INVALID_COMMAND, req.getMethod()));
-    res.send();
   }
 }

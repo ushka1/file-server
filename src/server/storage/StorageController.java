@@ -23,7 +23,7 @@ public class StorageController {
   }
 
   public void getFile(Request req, Response res) {
-    String filename = req.getParams().getOrDefault("file-name", "");
+    String filename = req.getParam("file-name");
     File file = storage.getFile(filename);
 
     if (file != null) {
@@ -34,12 +34,10 @@ public class StorageController {
       res.setStatusCode(404);
       res.setParam("message", req.t(I18nKey.FILE_NOT_FOUND, filename));
     }
-
-    res.send();
   }
 
   public void addFile(Request req, Response res) {
-    String filename = req.getParams().getOrDefault("file-name", "");
+    String filename = req.getParam("file-name");
 
     if (storage.addFile(filename, req.getTempFile())) {
       res.setStatusCode(200);
@@ -48,12 +46,10 @@ public class StorageController {
       res.setStatusCode(403);
       res.setParam("message", req.t(I18nKey.FILE_ADD_FAILURE, filename));
     }
-
-    res.send();
   }
 
   public void deleteFile(Request req, Response res) {
-    String filename = req.getParams().getOrDefault("file-name", "");
+    String filename = req.getParam("file-name");
 
     if (storage.deleteFile(filename)) {
       res.setStatusCode(200);
@@ -62,7 +58,5 @@ public class StorageController {
       res.setStatusCode(404);
       res.setParam("message", req.t(I18nKey.FILE_DELETE_FAILURE, filename));
     }
-
-    res.send();
   }
 }

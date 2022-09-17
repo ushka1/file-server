@@ -1,5 +1,6 @@
 package server.router;
 
+import server.Main;
 import server.config.Constants;
 import server.interfaces.Request;
 import server.interfaces.Response;
@@ -32,6 +33,10 @@ public class Router {
 
       case Constants.DELETE:
         storageController.deleteFile(req, res);
+        break;
+
+      case Constants.EXIT:
+        Main.killServer();
         break;
 
       default:

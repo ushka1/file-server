@@ -1,6 +1,7 @@
 package server.session;
 
 import java.io.File;
+import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -35,8 +36,8 @@ public class RequestImpl implements Request {
   }
 
   @Override
-  public Map<String, String> getParams() {
-    return new HashMap<>(params);
+  public String getParam(String key) {
+    return params.getOrDefault(key, "");
   }
 
   @Override
@@ -47,6 +48,12 @@ public class RequestImpl implements Request {
   @Override
   public Locale getLocale() {
     return locale;
+  }
+
+  @Override
+  public void close() throws Exception {
+    if (tempFile != null && tempFile.exists())
+      Files.delete(tempFile.toPath());
   }
 
   public static class Builder {

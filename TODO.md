@@ -29,19 +29,11 @@ POST <path>
 
 ## In Development
 
-- Same named files - do not create then "The response says that creating the file was forbidden!" on client
-- Add to constants paths for `/data`
-- In fukkin JetBrains add fukkin resources bitch
-- Remove : >
-
 ## To Do
 
-- Response.send() -> remove file / or maybe somewhere else...
 - When you getFile() and File instance is associated with res, content of file is not immediately read, but waits for response to send(), so if someone would remove that file, then we have problem. Also there is problem with reading/writing by others while this file will be read by Response.
 - Error handling (StorageController)
 - Write tests.
-- Add TextField implementation (with `:qa` ending) if user didn't passed filename.
-- Resolve overwritting.
 
 ## Backlog
 
@@ -53,6 +45,7 @@ POST <path>
 - Make notes about byte[] -> String -> byte[] and String -> byte[] -> String.
 - Further investgate HTTP request (with multipart especially).
 - Improve streams https://docs.oracle.com/javase/tutorial/essential/io/datastreams.html
+- Add TextField implementation (with `:qa` ending) if user didn't passed filename.
 
 ## Done
 
@@ -62,3 +55,6 @@ POST <path>
 - Add logger.
 - Add thread-safety to write and delete operations.
 - Add SoTimeout.
+- Same named files - do not create.
+- Remove temp file after response.
+- Resolve overwritting (no overwritting allowed).

@@ -1,11 +1,13 @@
-package server.interfaces;
+package client.interfaces;
 
 import java.io.File;
 import java.io.IOException;
 
-public interface Response {
+public interface Request {
 
-  public void setStatusCode(int statusCode);
+  public void setMethod(String method);
+
+  public void setPath(String path);
 
   public void setParam(String key, String value);
 

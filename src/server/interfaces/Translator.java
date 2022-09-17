@@ -10,11 +10,11 @@ public interface Translator {
   public Locale getLocale();
 
   default String t(I18nKey key) {
-    return I18n.getInstance().get(key, getLocale());
+    return I18n.getInstance().t(key, getLocale());
   }
 
   default String t(I18nKey key, Object... args) {
-    return I18n.getInstance().get(key, getLocale(), args);
+    return I18n.getInstance().t(key, getLocale(), args);
   }
 
 }

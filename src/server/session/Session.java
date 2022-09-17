@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.logging.Logger;
 
-import server.Main;
 import server.interfaces.Request;
 import server.interfaces.Response;
 import server.logger.MyLogger;
@@ -45,17 +44,12 @@ public class Session implements Runnable {
     }
   }
 
+  @SuppressWarnings("java:S2095")
   private void handleConnection(DataInputStream input, DataOutputStream output) throws IOException {
     while (!socket.isClosed()) {
 
       RequestParser parser = new RequestParser(input);
       parser.receiveInput();
-
-      // XXX
-      if (parser.getMethod().equals("EXIT")) {
-        Main.kill();
-        break;
-      }
 
       RequestImpl.Builder reqBuilder = new RequestImpl.Builder();
       reqBuilder
@@ -77,6 +71,20 @@ public class Session implements Runnable {
       }
 
       router.route(req, res);
+
+      try {
+        res.send();
+      } catch (IOException e) {
+        logger.severe(e.getMessage());
+        e.printStackTrace();
+      }
+
+      try {
+        req.close();
+      } catch (Exception e) {
+        logger.severe(e.getMessage());
+        e.printStackTrace();
+      }
     }
   }
 

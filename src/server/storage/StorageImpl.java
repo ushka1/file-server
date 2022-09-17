@@ -5,11 +5,12 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 
+import server.config.Constants;
 import server.interfaces.Storage;
 
 public class StorageImpl implements Storage {
 
-  private static final File DATA_DIR = new File("data/storage");
+  private static final File DATA_DIR = new File(Constants.DATA_DIR_PATH);
   private static final StorageImpl instance = new StorageImpl();
 
   public static StorageImpl getInstance() {
@@ -22,13 +23,12 @@ public class StorageImpl implements Storage {
   }
 
   @Override
-  // XXX to refactor
   public synchronized boolean addFile(String filename, File file) {
-    try {
-      File target = new File(DATA_DIR, filename);
-      if (target.exists())
-        return false;
+    File target = new File(DATA_DIR, filename);
+    if (target.exists())
+      return false;
 
+    try {
       Files.copy(file.toPath(), target.toPath(), StandardCopyOption.REPLACE_EXISTING);
     } catch (IOException e) {
       return false;
@@ -39,12 +39,12 @@ public class StorageImpl implements Storage {
 
   @Override
   public synchronized boolean deleteFile(String filename) {
+    File file = new File(DATA_DIR, filename);
+    if (!file.exists())
+      return false;
+
     try {
-      File file = new File(DATA_DIR, filename);
-      if (file.exists())
-        Files.delete(file.toPath());
-      else
-        return false;
+      Files.delete(file.toPath());
     } catch (IOException e) {
       return false;
     }
@@ -53,11 +53,9 @@ public class StorageImpl implements Storage {
   }
 
   // BUG
-  /*
-   * when another thread deletes or writes to that file and response is
-   * reading it we have problem
-   * possible solution - creating temporary file
-   */
+  // when another thread deletes or writes to that file and response is
+  // reading it we have problem
+  // possible solution - creating temporary file
   @Override
   public File getFile(String filename) {
     File file = new File(DATA_DIR, filename);

@@ -8,8 +8,9 @@ import java.util.ResourceBundle;
 
 public class I18n {
 
-  private static final String RESOURCE_BASE_NAME = "server.resources.messages";
   public static final Locale DEFAULT_LOCALE = Locale.ENGLISH;
+
+  private static final String RESOURCE_BASE_NAME = "server.resources.messages";
   private static final I18n instance = new I18n();
 
   public static I18n getInstance() {
@@ -34,23 +35,19 @@ public class I18n {
       return getBundle(DEFAULT_LOCALE);
   }
 
-  /* ============================================================ */
-
-  public String get(I18nKey key) {
-    return get(key, DEFAULT_LOCALE);
+  public String t(I18nKey key) {
+    return t(key, DEFAULT_LOCALE);
   }
 
-  public String get(I18nKey key, Locale locale) {
+  public String t(I18nKey key, Locale locale) {
     return getBundle(locale).getString(key.getValue());
   }
 
-  /* ============================================================ */
-
-  public String get(I18nKey key, Object... args) {
-    return get(key, DEFAULT_LOCALE, args);
+  public String t(I18nKey key, Object... args) {
+    return t(key, DEFAULT_LOCALE, args);
   }
 
-  public String get(I18nKey key, Locale locale, Object... args) {
+  public String t(I18nKey key, Locale locale, Object... args) {
     MessageFormat formatter = new MessageFormat(getBundle(locale).getString(key.getValue()));
     return formatter.format(args);
   }

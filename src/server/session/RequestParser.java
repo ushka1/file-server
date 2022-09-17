@@ -4,15 +4,17 @@ import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Date;
+import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
+
+import server.config.Constants;
 
 public class RequestParser {
 
   private static final String START_REGEX = "\\w+ [\\w/]+";
   private static final String PARAM_REGEX = "[\\w-]+=[\\w-.,() ]+";
-  private static final File TEMP_DIR = new File("data/temp");
+  private static final File TEMP_DIR = new File(Constants.TEMP_DIR_PATH);
 
   private final DataInputStream input;
 
@@ -84,8 +86,7 @@ public class RequestParser {
   }
 
   private void receiveFile() throws IOException {
-    String name = "temp-" + new Date().getTime() + ".bin";
-    tempFile = new File(TEMP_DIR, name);
+    tempFile = Files.createTempFile(TEMP_DIR.toPath(), "temp-", ".bin").toFile();
 
     long size = 0;
     if (params.containsKey("file-size"))

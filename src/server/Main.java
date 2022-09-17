@@ -31,16 +31,21 @@ public class Main {
       }
 
     } catch (IOException e) {
-      // logger.severe(e.getMessage());
-      // e.printStackTrace();
+      logger.severe(e.getMessage());
+      e.printStackTrace();
     } finally {
       logger.info("Server stopped!");
     }
   }
 
-  public static void kill() throws IOException {
-    if (server != null)
-      server.close();
+  public static void killServer() {
+    try {
+      if (server != null)
+        server.close();
+    } catch (IOException e) {
+      logger.severe(e.getMessage());
+      e.printStackTrace();
+    }
   }
 
 }

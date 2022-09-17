@@ -1,15 +1,14 @@
 package server.interfaces;
 
 import java.io.File;
-import java.util.Map;
 
-public interface Request extends Translator {
+public interface Request extends Translator, AutoCloseable {
 
   public String getMethod();
 
   public String getPath();
 
-  public Map<String, String> getParams();
+  public String getParam(String key);
 
   public File getTempFile();
 

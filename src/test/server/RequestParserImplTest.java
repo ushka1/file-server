@@ -1,4 +1,4 @@
-package server.session;
+package test.server;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -13,6 +13,8 @@ import java.util.Map;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import server.session.RequestParser;
 
 @SuppressWarnings({ "java:S5960" })
 public class RequestParserImplTest {
