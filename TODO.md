@@ -2,8 +2,9 @@
 
 ## To Do
 
+- Allow user to specify filename to save.
 - Splitting with "=" can be problematic when we send "=" in mesage!
-- Multiple file saving, do table with | ID (unique) | filename | and files should be saved as ID + eventually bin?. Then when user fetches by filename and multiple files are found, we response with multiple files found and list available ids.
+- Multiple file saving, do table with | ID (unique) | filename | and files should be saved as ID + eventually bin?. Then when user fetches by filename and multiple files are found, we response with multiple files found and list available ids. GET BY ID always returns result, byt GET BY FILENAME can return message with available files.
 
 ## Backlog
 

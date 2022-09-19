@@ -43,8 +43,8 @@ public class RequestImpl implements Request {
       return;
 
     this.file = file;
-    params.put("file-name", file.getName());
     params.put("file-size", file.length() + "");
+    params.put("file-name", file.getName());
   }
 
   @Override

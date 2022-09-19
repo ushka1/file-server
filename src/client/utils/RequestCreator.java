@@ -46,7 +46,7 @@ public class RequestCreator {
   private void createGetRequest() {
     req.setMethod(Constants.GET);
 
-    System.out.print("Enter action (1 - by name, 2 - by id): ");
+    System.out.print("Do you want to get the file by name or by id (1 - name, 2 - id): ");
     String choice = scanner.nextLine();
     switch (choice) {
       case "1":
@@ -70,14 +70,15 @@ public class RequestCreator {
     File file = new File(USER_DIR, filename);
     if (!file.exists())
       throw new IllegalArgumentException("File does not exist");
-
     req.setFile(file);
+
+    requestServerFilename();
   }
 
   private void createDeleteRequest() {
     req.setMethod(Constants.DELETE);
 
-    System.out.print("Enter action (1 - by name, 2 - by id): ");
+    System.out.print("Do you want to delete the file by name or by id (1 - name, 2 - id): ");
     String choice = scanner.nextLine();
     switch (choice) {
       case "1":
@@ -101,7 +102,15 @@ public class RequestCreator {
   /* ============================================================ */
 
   private String requestFilename() {
-    System.out.print("Enter filename: ");
+    System.out.print("Enter name of the file: ");
+    String filename = scanner.nextLine();
+
+    req.setParam("file-name", filename);
+    return filename;
+  }
+
+  private String requestServerFilename() {
+    System.out.print("Enter name of the file to be saved on server: ");
     String filename = scanner.nextLine();
 
     req.setParam("file-name", filename);
@@ -109,7 +118,7 @@ public class RequestCreator {
   }
 
   private String requestFileId() {
-    System.out.print("Enter file id: ");
+    System.out.print("Enter id: ");
     String id = scanner.nextLine();
 
     req.setParam("file-id", id);
