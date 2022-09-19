@@ -113,7 +113,9 @@ public class RequestCreator {
     System.out.print("Enter name of the file to be saved on server: ");
     String filename = scanner.nextLine();
 
-    req.setParam("file-name", filename);
+    // FIXME
+    if (filename.length() > 0)
+      req.setParam("file-name", filename);
     return filename;
   }
 

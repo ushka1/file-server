@@ -26,6 +26,9 @@ public class ResponseImpl implements Response {
   }
 
   public void receive() throws IOException {
+    if (!USER_DIR.exists())
+      USER_DIR.mkdirs();
+
     statusCode = input.readUTF();
 
     String param;

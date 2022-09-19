@@ -1,11 +1,3 @@
-## Intro
-
-Articles related to this project are in Chrome under `bookmarks/programming/projects/file_server`.
-
-## Build
-
-1. Javac can only compile `.java` files and give `.class` output. There is no way to tell javac to parse/include `.properties` or any other files. You have to copy them manually.
-
 ## Exceptions
 
 1. `java.net.SocketException: Broken pipe` errors (usually) occur when the client socket is closed before the request can be completed. These errors are harmless. <br> Example situation: User hits the update button and closes the browser while the application is calculating.
