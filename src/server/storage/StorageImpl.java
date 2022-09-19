@@ -2,15 +2,16 @@ package server.storage;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 
 import server.config.Constants;
 import server.interfaces.Storage;
 
-public class StorageImpl implements Storage {
+public class StorageImpl implements Storage, Serializable {
 
-  private static final File DATA_DIR = new File(Constants.DATA_DIR_PATH);
+  private static final File STORAGE_DIR = new File(Constants.STORAGE_PATH);
   private static final StorageImpl instance = new StorageImpl();
 
   public static StorageImpl getInstance() {
@@ -18,13 +19,16 @@ public class StorageImpl implements Storage {
   }
 
   private StorageImpl() {
-    if (!DATA_DIR.exists())
-      DATA_DIR.mkdirs();
+    if (!STORAGE_DIR.exists())
+      STORAGE_DIR.mkdirs();
   }
 
   @Override
   public File getFile(String filename) {
-    File file = new File(DATA_DIR, filename);
+    if (filename == null)
+      return null;
+
+    File file = new File(STORAGE_DIR, filename);
     if (file.exists())
       return file;
     else
@@ -33,7 +37,10 @@ public class StorageImpl implements Storage {
 
   @Override
   public synchronized boolean addFile(String filename, File file) {
-    File target = new File(DATA_DIR, filename);
+    if (filename == null || file == null)
+      return false;
+
+    File target = new File(STORAGE_DIR, filename);
     if (target.exists())
       return false;
 
@@ -48,7 +55,10 @@ public class StorageImpl implements Storage {
 
   @Override
   public synchronized boolean deleteFile(String filename) {
-    File file = new File(DATA_DIR, filename);
+    if (filename == null)
+      return false;
+
+    File file = new File(STORAGE_DIR, filename);
     if (!file.exists())
       return false;
 

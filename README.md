@@ -20,6 +20,7 @@ Alternatively you can open project in VSCode with installed [Extension Pack for 
 GET <path>
 <param>=<value>
 <param>=<value>
+...
 <param>=<value>
 
 ```
@@ -28,6 +29,7 @@ GET <path>
 DELETE <path>
 <param>=<value>
 <param>=<value>
+...
 <param>=<value>
 
 ```
@@ -36,6 +38,7 @@ DELETE <path>
 POST <path>
 <param>=<value>
 <param>=<value>
+...
 <param>=<value>
 
 <bytes>

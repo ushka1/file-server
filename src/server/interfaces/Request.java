@@ -11,6 +11,8 @@ public interface Request extends Translator, Closeable {
 
   public String getParam(String key);
 
+  public void setParam(String key, String value);
+
   public File getTempFile();
 
 }

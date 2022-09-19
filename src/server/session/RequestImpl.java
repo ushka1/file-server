@@ -42,6 +42,11 @@ public class RequestImpl implements Request {
   }
 
   @Override
+  public void setParam(String key, String value) {
+    params.put(key, value);
+  }
+
+  @Override
   public File getTempFile() {
     return tempFile;
   }

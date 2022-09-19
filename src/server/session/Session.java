@@ -14,7 +14,7 @@ import server.router.Router;
 
 public class Session implements Runnable {
 
-  private static final int SOCKET_TIMEOUT = 1 * 60 * 1000;
+  private static final int SOCKET_TIMEOUT = 5 * 60 * 1000;
   private static final Logger logger = MyLogger.getInstance();
   private static final Router router = Router.getInstance();
 
@@ -57,7 +57,7 @@ public class Session implements Runnable {
           .params(parser.getParams())
           .tempFile(parser.getTempFile());
 
-      // TODO additional request configuration
+      // TODO additional request configuration e.g. localization
 
       try (Request req = new RequestImpl(builder);
           Response res = new ResponseImpl(output)) {

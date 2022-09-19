@@ -26,8 +26,8 @@ public class ResponseImpl implements Response {
 
     String param;
     while (!(param = input.readUTF()).equals("")) {
-      String[] parts = param.split("=");
-      params.put(parts[0], parts[1]);
+      int idx = param.indexOf("=");
+      params.put(param.substring(0, idx), param.substring(idx + 1));
     }
 
     if (params.containsKey("file-size")) {

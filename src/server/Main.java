@@ -40,8 +40,9 @@ public class Main {
 
   public static void killServer() {
     try {
-      if (server != null)
+      if (server != null) {
         server.close();
+      }
     } catch (IOException e) {
       logger.severe(e.getMessage());
       e.printStackTrace();

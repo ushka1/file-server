@@ -10,16 +10,24 @@ import server.interfaces.Storage;
 @SuppressWarnings("java:S1192")
 public class StorageController {
 
-  private static final StorageController instance = new StorageController(StorageImpl.getInstance());
+  private static final StorageController instance = new StorageController();
 
   public static StorageController getInstance() {
     return instance;
   }
 
-  private Storage storage;
+  private IdManager idManager = IdManager.getInstance();
+  private Storage storage = StorageImpl.getInstance();
 
-  private StorageController(Storage storage) {
-    this.storage = storage;
+  private StorageController() {
+    //
+  }
+
+  public void getFileById(Request req, Response res) {
+    String id = req.getParam("file-id");
+    String filename = idManager.getById(id);
+    req.setParam("file-name", filename);
+    getFile(req, res);
   }
 
   public void getFile(Request req, Response res) {
@@ -40,18 +48,27 @@ public class StorageController {
     String filename = req.getParam("file-name");
 
     if (storage.addFile(filename, req.getTempFile())) {
+      String id = idManager.add(filename);
       res.setStatusCode(200);
-      res.setParam("message", req.t(I18nKey.FILE_ADD_SUCCESS, filename));
+      res.setParam("message", req.t(I18nKey.FILE_ADD_SUCCESS, filename, id));
     } else {
       res.setStatusCode(403);
       res.setParam("message", req.t(I18nKey.FILE_ADD_FAILURE, filename));
     }
   }
 
+  public void deleteFileById(Request req, Response res) {
+    String id = req.getParam("file-id");
+    String filename = idManager.getById(id);
+    req.setParam("file-name", filename);
+    deleteFile(req, res);
+  }
+
   public void deleteFile(Request req, Response res) {
     String filename = req.getParam("file-name");
 
     if (storage.deleteFile(filename)) {
+      idManager.removeByValue(filename);
       res.setStatusCode(200);
       res.setParam("message", req.t(I18nKey.FILE_DELETE_SUCCESS, filename));
     } else {

@@ -1,46 +1,21 @@
-## IMPORTANT NOTE
-
-Headers and query params (and simple body) merged into params.
-
-```
-GET <path>
-<param>: <value>
-<param>: <value>
-<param>: <value>
-
-```
-
-```
-DELETE <path>
-<param>: <value>
-<param>: <value>
-<param>: <value>
-
-```
-
-```
-POST <path>
-<param>: <value>
-<param>: <value>
-<param>: <value>
-
-<bytes>
-```
-
 ## In Development
 
 ## To Do
 
-- Write tests.
-- LOCK per filename in StorageImpl, when some request holds reference to a file it is locked and thread is waiting (.wait(), .interrupt() etc) - OWN IMPLEMENTATION D:
+- Splitting with "=" can be problematic when we send "=" in mesage!
+- Multiple file saving, do table with | ID (unique) | filename | and files should be saved as ID + eventually bin?. Then when user fetches by filename and multiple files are found, we response with multiple files found and list available ids.
 
 ## Backlog
 
-- Ask stackoverflow about file get/delete/add and synchronization
+- LOCK per filename in StorageImpl, when some request holds reference to a file it is locked and thread is waiting (.wait(), .interrupt() etc) - OWN IMPLEMENTATION D:
+- On client save files with unique id to avoid overwritting.
+- Buffered Reader/Writer usage.
+- Ask stackoverflow about file get/delete/add and synchronization.
 - Replace `writeUTF` with something different.
 - Param validation.
 - Add `JAspect` and add validators.
 - Make notes about byte[] -> String -> byte[] and String -> byte[] -> String.
+- Write tests.
 
 ## Done
 
@@ -53,3 +28,7 @@ POST <path>
 - Same named files - do not create.
 - Remove temp file after response.
 - Resolve overwritting (no overwritting allowed).
+
+```
+
+```

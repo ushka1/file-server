@@ -23,16 +23,22 @@ public class Router {
   public void route(Request req, Response res) {
     switch (req.getMethod()) {
 
+      case Constants.GET:
+        if (req.getPath().equals("/id"))
+          storageController.getFileById(req, res);
+        else
+          storageController.getFile(req, res);
+        break;
+
       case Constants.POST:
         storageController.addFile(req, res);
         break;
 
-      case Constants.GET:
-        storageController.getFile(req, res);
-        break;
-
       case Constants.DELETE:
-        storageController.deleteFile(req, res);
+        if (req.getPath().equals("/id"))
+          storageController.deleteFileById(req, res);
+        else
+          storageController.deleteFile(req, res);
         break;
 
       case Constants.EXIT:

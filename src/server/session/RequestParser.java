@@ -14,7 +14,7 @@ public class RequestParser {
 
   private static final String START_REGEX = "\\w+ [\\w/]+";
   private static final String PARAM_REGEX = "[\\w-]+=[\\w-.,() ]+";
-  private static final File TEMP_DIR = new File(Constants.TEMP_DIR_PATH);
+  private static final File TEMP_DIR = new File(Constants.TEMP_PATH);
 
   private final DataInputStream input;
 
