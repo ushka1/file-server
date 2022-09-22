@@ -1,5 +1,6 @@
 package client.implementations;
 
+import java.io.BufferedInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -57,7 +58,7 @@ public class RequestImpl implements Request {
     output.writeUTF("");
 
     if (method.equals("POST") && file != null && file.exists()) {
-      try (FileInputStream fileInput = new FileInputStream(file)) {
+      try (var fileInput = new BufferedInputStream(new FileInputStream(file))) {
         int bytesRead = 0;
         byte[] buffer = new byte[4 * 1024];
 
@@ -66,6 +67,9 @@ public class RequestImpl implements Request {
         }
       }
     }
+
+    output.flush();
+    System.out.println("The request was sent.");
   }
 
 }

@@ -1,5 +1,6 @@
 package server.session;
 
+import java.io.BufferedInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -61,7 +62,7 @@ public class ResponseImpl implements Response {
     output.writeUTF("");
 
     if (file != null && file.exists()) {
-      try (FileInputStream fileInput = new FileInputStream(file)) {
+      try (var fileInput = new BufferedInputStream(new FileInputStream(file))) {
         int bytesRead = 0;
         byte[] buffer = new byte[4 * 1024];
 
@@ -71,6 +72,7 @@ public class ResponseImpl implements Response {
       }
     }
 
+    output.flush();
     logger.info("Send: " + statusCode);
   }
 

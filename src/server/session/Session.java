@@ -1,5 +1,7 @@
 package server.session;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.EOFException;
@@ -28,8 +30,8 @@ public class Session implements Runnable {
   public void run() {
     logger.info("New client connected!");
 
-    try (DataInputStream input = new DataInputStream(socket.getInputStream());
-        DataOutputStream output = new DataOutputStream(socket.getOutputStream())) {
+    try (var input = new DataInputStream(new BufferedInputStream(socket.getInputStream(), 4096));
+        var output = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream(), 4096))) {
 
       socket.setSoTimeout(SOCKET_TIMEOUT);
       handleConnection(input, output);

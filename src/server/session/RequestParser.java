@@ -1,5 +1,6 @@
 package server.session;
 
+import java.io.BufferedOutputStream;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -85,7 +86,7 @@ public class RequestParser {
       size = input.available();
 
     byte[] buffer = new byte[4 * 1024];
-    try (FileOutputStream fileOutput = new FileOutputStream(tempFile)) {
+    try (var fileOutput = new BufferedOutputStream(new FileOutputStream(tempFile))) {
       while (size > 0) {
         int bytesRead = input.read(buffer, 0, (int) Math.min(buffer.length, size));
         if (bytesRead == -1)

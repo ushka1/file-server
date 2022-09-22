@@ -5,7 +5,6 @@
 - [CLIENT] Make separate functions on every type of request with own response handling. Like in a normal web-app bruh. Current flow is kinda shitty you know.
 - Splitting with "=" can cause problems when <value> contains "=".
 - Handle case when user want to save file with name of file already present in directory.
-- Add support for BufferedReader and BufferedWriter if needed.
 - Think about upgrading logging.
 
 ## Backlog
@@ -29,3 +28,4 @@
 - Same named files - do not create.
 - Remove temp file after response.
 - Resolve overwritting (no overwritting allowed).
+- Add support for BufferedReader and BufferedWriter if needed.

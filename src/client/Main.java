@@ -1,5 +1,7 @@
 package client;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
@@ -22,15 +24,14 @@ public class Main {
 
   public static void main(String[] args) {
     try (Socket socket = new Socket(InetAddress.getByName(Constants.SERVER_ADDRESS), Constants.SERVER_PORT);
-        DataInputStream input = new DataInputStream(socket.getInputStream());
-        DataOutputStream output = new DataOutputStream(socket.getOutputStream())) {
+        var input = new DataInputStream(new BufferedInputStream(socket.getInputStream(), 4096));
+        var output = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream(), 4096))) {
 
       Request req = new RequestImpl(output);
       RequestCreator creator = new RequestCreator(req);
       creator.runCreator();
 
       req.send();
-      System.out.println("The request was sent.");
 
       /* ============================================================ */
 

@@ -1,5 +1,6 @@
 package client.implementations;
 
+import java.io.BufferedOutputStream;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -42,7 +43,7 @@ public class ResponseImpl implements Response {
       String ext = getFileExt();
 
       file = Files.createTempFile(USER_DIR.toPath(), "temp-", ext).toFile();
-      try (var fileOutput = new FileOutputStream(file)) {
+      try (var fileOutput = new BufferedOutputStream(new FileOutputStream(file))) {
         byte[] buffer = new byte[4 * 1024];
         while (size > 0) {
           int bytesRead = input.read(buffer, 0, Math.min((int) size, buffer.length));
