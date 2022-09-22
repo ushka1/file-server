@@ -40,7 +40,6 @@ public class MainFlow extends Flow {
           break;
 
         case "q":
-          printer.info("Performing exit...");
           break;
 
         default:
