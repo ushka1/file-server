@@ -17,7 +17,7 @@ import server.router.Router;
 public class Session implements Runnable {
 
   private static final int SOCKET_TIMEOUT = 5 * 60 * 1000;
-  private static final Logger logger = MyLogger.getInstance();
+  private static final Logger logger = MyLogger.getLogger();
   private static final Router router = Router.getInstance();
 
   private Socket socket;
@@ -39,7 +39,7 @@ public class Session implements Runnable {
     } catch (EOFException e) {
       logger.info("Client disconnected.");
     } catch (IOException | IllegalArgumentException e) {
-      logger.severe("Session error: " + e.getMessage());
+      logger.severe("Session error: " + e);
       e.printStackTrace();
     } finally {
       closeSocket();
@@ -78,7 +78,7 @@ public class Session implements Runnable {
     try {
       socket.close();
     } catch (IOException e) {
-      logger.severe("Socket closing error: " + e.getMessage());
+      logger.severe("Socket closing error: " + e);
       e.printStackTrace();
     } finally {
       logger.info("Socket connection closed.");

@@ -26,6 +26,12 @@ public class StorageController {
   public void getFileById(Request req, Response res) {
     String id = req.getParam("file-id");
     String filename = idManager.getById(id);
+    if (filename == null) {
+      res.setStatusCode(404);
+      res.setParam("message", req.t(I18nKey.FILE_NOT_FOUND_ID, id));
+      return;
+    }
+
     req.setParam("file-name", filename);
     getFile(req, res);
   }
@@ -60,6 +66,12 @@ public class StorageController {
   public void deleteFileById(Request req, Response res) {
     String id = req.getParam("file-id");
     String filename = idManager.getById(id);
+    if (filename == null) {
+      res.setStatusCode(404);
+      res.setParam("message", req.t(I18nKey.FILE_NOT_FOUND_ID, id));
+      return;
+    }
+
     req.setParam("file-name", filename);
     deleteFile(req, res);
   }

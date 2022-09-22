@@ -8,10 +8,11 @@
 
 ## Backlog
 
+- Move from File to Path.
 - Add other commands like GET /list to list all available IDS with filenames.
 - Saving multiple files with same name. Create table with | ID (unique) | filename | fields. Files should be saved as ID + extension/".bin" (?). When user fetches by filename and multiple files are found, response contains multiple IDS to choose (?). GET_BY_ID always returns result, byt GET_BY_FILENAME can return message with available files. Or maybe GET_BY_FILENAME should return first result found (?). Not sure about this. OR maybe return error with that message. Like "found more than one file with corresponding filename please specify it by id...".
 - Locking per filename in Storage, when some request holds reference to a file it locks access to this file for WRITE/DELETE operations. Threads that want to do such operations have to .wait() and later be .wake() or something. This should be own implementation, need to be designed. Also you can ask on Stackoverflow.
-- Add param validation. Consider adding `JAspect` for validation.
+- Add param validation. Consider adding `JAspect` for validation. E.g. min file-name length, file-id, file-size, etc.
 - Write tests.
 - Write integration tests.
 - Make notes about byte[] -> String -> byte[] and String -> byte[] -> String.

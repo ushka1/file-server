@@ -40,7 +40,7 @@ public class ResponseImpl implements Response {
 
   @Override
   public String getParam(String key) {
-    return params.getOrDefault(key, "");
+    return params.get(key);
   }
 
   @Override

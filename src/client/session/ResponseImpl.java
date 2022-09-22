@@ -1,4 +1,4 @@
-package client.implementations;
+package client.session;
 
 import java.io.BufferedOutputStream;
 import java.io.DataInputStream;

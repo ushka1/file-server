@@ -2,6 +2,14 @@
   "folders": [
     {
       "path": ".."
+    },
+    {
+      "name": "client",
+      "path": "../src/client/"
+    },
+    {
+      "name": "server",
+      "path": "../src/server/"
     }
   ],
   "settings": {

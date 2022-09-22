@@ -1,4 +1,4 @@
-package client.implementations;
+package client.session;
 
 import static client.config.Constants.POST;
 
@@ -17,7 +17,7 @@ public class RequestImpl implements Request {
   private DataOutputStream output;
 
   private String method;
-  private String path = "/";
+  private String path;
   private Map<String, String> params = new HashMap<>();
   private File file;
 
@@ -31,13 +31,28 @@ public class RequestImpl implements Request {
   }
 
   @Override
+  public String getMethod() {
+    return method;
+  }
+
+  @Override
   public void setPath(String path) {
     this.path = path;
   }
 
   @Override
+  public String getPath() {
+    return path;
+  }
+
+  @Override
   public void setParam(String key, String value) {
     params.put(key, value);
+  }
+
+  @Override
+  public String getParam(String key) {
+    return params.getOrDefault(key, "");
   }
 
   @Override
@@ -48,6 +63,11 @@ public class RequestImpl implements Request {
     this.file = file;
     params.put("file-size", file.length() + "");
     params.put("file-name", file.getName());
+  }
+
+  @Override
+  public File getFile() {
+    return file;
   }
 
   @Override
@@ -71,7 +91,6 @@ public class RequestImpl implements Request {
     }
 
     output.flush();
-    System.out.println("The request was sent.");
   }
 
 }

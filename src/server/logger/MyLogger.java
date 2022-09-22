@@ -6,23 +6,23 @@ import java.util.logging.Logger;
 
 public class MyLogger {
 
-  private static final Logger instance = Logger.getLogger(MyLogger.class.getName());
+  private static final Logger logger = Logger.getLogger(MyLogger.class.getName());
   private static boolean initialized = false;
 
-  public static Logger getInstance() {
+  public static Logger getLogger() {
     if (!initialized) {
       init();
       initialized = true;
     }
 
-    return instance;
+    return logger;
   }
 
   private static void init() {
-    instance.setUseParentHandlers(false);
+    logger.setUseParentHandlers(false);
 
     ConsoleHandler handler = new ConsoleHandler();
-    instance.addHandler(handler);
+    logger.addHandler(handler);
 
     Formatter formatter = new MyFormatter();
     handler.setFormatter(formatter);

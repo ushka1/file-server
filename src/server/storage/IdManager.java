@@ -14,7 +14,7 @@ public class IdManager implements Serializable {
   private static final long serialVersionUID = 1L;
 
   private static final String DATA_FILENAME = "data/id.data";
-  private static final Logger logger = MyLogger.getInstance();
+  private static final Logger logger = MyLogger.getLogger();
   private static IdManager instance;
 
   public static IdManager getInstance() {
@@ -39,7 +39,7 @@ public class IdManager implements Serializable {
     try {
       SerializationUtils.serialize(this, DATA_FILENAME);
     } catch (IOException e) {
-      logger.severe("IdManager error: " + e.getMessage());
+      logger.severe("IdManager error: " + e);
       e.printStackTrace();
     }
   }

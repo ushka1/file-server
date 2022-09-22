@@ -12,7 +12,7 @@ import server.session.Session;
 
 public class Main {
 
-  private static final Logger logger = MyLogger.getInstance();
+  private static final Logger logger = MyLogger.getLogger();
   private static ServerSocket server;
 
   public static void main(String[] args) {
@@ -33,7 +33,7 @@ public class Main {
       }
 
     } catch (IOException e) {
-      logger.severe("Server error: " + e.getMessage());
+      logger.severe("Server error: " + e);
       e.printStackTrace();
     } finally {
       logger.info("Server shutdown.");
@@ -46,7 +46,7 @@ public class Main {
         server.close();
       }
     } catch (IOException e) {
-      logger.severe(e.getMessage());
+      logger.severe("Server shutdown error: " + e);
       e.printStackTrace();
     }
   }

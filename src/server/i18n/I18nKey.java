@@ -4,6 +4,7 @@ public enum I18nKey {
 
   FILE_GET_SUCCESS("file_get_success"),
   FILE_NOT_FOUND("file_not_found"),
+  FILE_NOT_FOUND_ID("file_not_found_id"),
   FILE_ADD_SUCCESS("file_add_success"),
   FILE_ADD_FAILURE("file_add_failure"),
   FILE_DELETE_SUCCESS("file_delete_success"),
