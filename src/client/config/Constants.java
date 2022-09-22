@@ -7,9 +7,9 @@ public class Constants {
   }
 
   public static final String SERVER_ADDRESS = "127.0.0.1";
-  public static final int SERVER_PORT = 23456;
+  public static final int SERVER_PORT = 8080;
 
-  public static final String USER_PATH = "data/user";
+  public static final String USER_PATH = "data/client";
 
   public static final String GET = "GET";
   public static final String POST = "POST";

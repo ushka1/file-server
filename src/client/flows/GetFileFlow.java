@@ -6,8 +6,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 
+import client.abstracts.Flow;
 import client.config.Constants;
-import client.interfaces.Flow;
 import client.interfaces.Request;
 import client.interfaces.Response;
 import client.session.RequestImpl;
@@ -40,7 +40,7 @@ public class GetFileFlow extends Flow {
   }
 
   private boolean prepareRequest() {
-    req.setMethod("GET");
+    req.setMethod(Constants.GET);
 
     while (req.getPath() == null) {
       printer.action("""
@@ -112,14 +112,10 @@ public class GetFileFlow extends Flow {
     }
 
     if (res.getStatusCode().equals("200")) {
-      printer.info("File was downloaded.");
+      printer.info(res.getMessage());
       askForNameToSave();
     } else {
-      if (res.getParam("message").length() > 0) {
-        printer.warn(res.getParam("message"));
-      } else {
-        printer.warn("Server responded with code: " + res.getStatusCode() + ".");
-      }
+      printer.warn(res.getMessage());
     }
 
     return true;

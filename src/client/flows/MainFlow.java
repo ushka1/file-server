@@ -3,7 +3,7 @@ package client.flows;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 
-import client.interfaces.Flow;
+import client.abstracts.Flow;
 
 public class MainFlow extends Flow {
 
@@ -21,7 +21,7 @@ public class MainFlow extends Flow {
       printer.action("""
           Select action:
           [1] - get file
-          [2] - create file
+          [2] - send file
           [3] - delete file
           [q] - exit""");
 

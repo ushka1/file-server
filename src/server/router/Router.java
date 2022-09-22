@@ -1,11 +1,9 @@
 package server.router;
 
 import static server.config.Constants.DELETE;
-import static server.config.Constants.EXIT;
 import static server.config.Constants.GET;
 import static server.config.Constants.POST;
 
-import server.Main;
 import server.interfaces.Request;
 import server.interfaces.Response;
 import server.storage.StorageController;
@@ -50,9 +48,9 @@ public class Router {
         storageController.deleteFileById(req, res);
         break;
 
-      case EXIT + " /":
-        Main.shutdownServer();
-        break;
+      // case EXIT + " /":
+      // Main.shutdownServer();
+      // break;
 
       default:
         notFoundController.handle(req, res);

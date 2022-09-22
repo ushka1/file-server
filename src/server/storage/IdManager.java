@@ -1,10 +1,12 @@
 package server.storage;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.logging.Logger;
 
+import server.config.Constants;
 import server.logger.MyLogger;
 import server.utils.RandomUtils;
 import server.utils.SerializationUtils;
@@ -13,14 +15,15 @@ public class IdManager implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
-  private static final String DATA_FILENAME = "data/id.data";
+  private static final File CONFIG_DIR = new File(Constants.CONFIG_PATH);
+  private static final File CONFIG_FILE = new File(CONFIG_DIR, "id_manager.data");
   private static final Logger logger = MyLogger.getLogger();
   private static IdManager instance;
 
   public static IdManager getInstance() {
     if (instance == null) {
       try {
-        instance = (IdManager) SerializationUtils.deserialize(DATA_FILENAME);
+        instance = (IdManager) SerializationUtils.deserialize(CONFIG_FILE.toString());
       } catch (IOException | ClassNotFoundException e) {
         instance = new IdManager();
       }
@@ -32,12 +35,13 @@ public class IdManager implements Serializable {
   private HashMap<String, String> map = new HashMap<>();
 
   private IdManager() {
-    //
+    if (!CONFIG_DIR.exists())
+      CONFIG_DIR.mkdirs();
   }
 
   private void saveState() {
     try {
-      SerializationUtils.serialize(this, DATA_FILENAME);
+      SerializationUtils.serialize(this, CONFIG_FILE.toString());
     } catch (IOException e) {
       logger.severe("IdManager error: " + e);
       e.printStackTrace();

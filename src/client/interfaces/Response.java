@@ -13,4 +13,6 @@ public interface Response {
 
   public void receive() throws IOException;
 
+  public String getMessage();
+
 }

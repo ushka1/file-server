@@ -82,4 +82,13 @@ public class ResponseImpl implements Response {
     return file;
   }
 
+  @Override
+  public String getMessage() {
+    if (getParam("message").length() > 0) {
+      return getParam("message");
+    } else {
+      return "Server responded with code: " + getStatusCode() + ".";
+    }
+  }
+
 }
