@@ -12,7 +12,7 @@ import server.session.Session;
 
 public class Main {
 
-  private static Logger logger = MyLogger.getInstance();
+  private static final Logger logger = MyLogger.getInstance();
   private static ServerSocket server;
 
   public static void main(String[] args) {
@@ -21,24 +21,26 @@ public class Main {
         Constants.MAX_PENDING_CONNECTIONS,
         InetAddress.getByName(Constants.ADDRESS))) {
 
-      logger.info("Server started!");
       Main.server = server;
+      logger.info("Server listening at: " + Constants.ADDRESS + ":" + Constants.PORT);
 
       while (!server.isClosed()) {
         Socket socket = server.accept();
+        logger.info("Socket connection opened.");
+
         Session session = new Session(socket);
         new Thread(session).start();
       }
 
     } catch (IOException e) {
-      logger.severe(e.getMessage());
+      logger.severe("Server error: " + e.getMessage());
       e.printStackTrace();
     } finally {
-      logger.info("Server stopped!");
+      logger.info("Server shutdown.");
     }
   }
 
-  public static void killServer() {
+  public static void shutdownServer() {
     try {
       if (server != null) {
         server.close();

@@ -2,6 +2,7 @@ package test.server;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static server.config.Constants.POST;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -18,7 +19,7 @@ import server.session.RequestParser;
 
 public class RequestParserImplTest {
 
-  private static final String METHOD = "POST";
+  private static final String METHOD = POST;
   private static final String PATH = "/";
   private static final Map<String, String> PARAMS = Map.of(
       "file-name", "file.txt",

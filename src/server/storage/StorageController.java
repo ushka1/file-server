@@ -73,7 +73,7 @@ public class StorageController {
       res.setParam("message", req.t(I18nKey.FILE_DELETE_SUCCESS, filename));
     } else {
       res.setStatusCode(404);
-      res.setParam("message", req.t(I18nKey.FILE_DELETE_FAILURE, filename));
+      res.setParam("message", req.t(I18nKey.FILE_NOT_FOUND, filename));
     }
   }
 }

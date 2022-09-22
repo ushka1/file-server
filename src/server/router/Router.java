@@ -1,7 +1,11 @@
 package server.router;
 
+import static server.config.Constants.DELETE;
+import static server.config.Constants.EXIT;
+import static server.config.Constants.GET;
+import static server.config.Constants.POST;
+
 import server.Main;
-import server.config.Constants;
 import server.interfaces.Request;
 import server.interfaces.Response;
 import server.storage.StorageController;
@@ -21,28 +25,33 @@ public class Router {
   }
 
   public void route(Request req, Response res) {
-    switch (req.getMethod()) {
+    String method = req.getMethod();
+    String path = req.getPath();
 
-      case Constants.GET:
-        if (req.getPath().equals("/id"))
-          storageController.getFileById(req, res);
-        else
-          storageController.getFile(req, res);
+    switch (method + " " + path) {
+
+      case GET + " /":
+        storageController.getFile(req, res);
         break;
 
-      case Constants.POST:
+      case GET + " /id":
+        storageController.getFileById(req, res);
+        break;
+
+      case POST + " /":
         storageController.addFile(req, res);
         break;
 
-      case Constants.DELETE:
-        if (req.getPath().equals("/id"))
-          storageController.deleteFileById(req, res);
-        else
-          storageController.deleteFile(req, res);
+      case DELETE + " /":
+        storageController.deleteFile(req, res);
         break;
 
-      case Constants.EXIT:
-        Main.killServer();
+      case DELETE + " /id":
+        storageController.deleteFileById(req, res);
+        break;
+
+      case EXIT + " /":
+        Main.shutdownServer();
         break;
 
       default:

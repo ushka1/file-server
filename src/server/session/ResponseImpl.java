@@ -7,14 +7,11 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import server.interfaces.Response;
-import server.logger.MyLogger;
 
 public class ResponseImpl implements Response {
 
-  private static final Logger logger = MyLogger.getInstance();
   private final DataOutputStream output;
 
   private int statusCode = 200;
@@ -32,8 +29,18 @@ public class ResponseImpl implements Response {
   }
 
   @Override
+  public int getStatusCode() {
+    return statusCode;
+  }
+
+  @Override
   public void setParam(String key, String value) {
     params.put(key, value);
+  }
+
+  @Override
+  public String getParam(String key) {
+    return params.getOrDefault(key, "");
   }
 
   @Override
@@ -44,7 +51,11 @@ public class ResponseImpl implements Response {
     this.file = file;
     params.put("file-name", file.getName());
     params.put("file-size", file.length() + "");
+  }
 
+  @Override
+  public File getFile() {
+    return file;
   }
 
   @Override
@@ -73,7 +84,6 @@ public class ResponseImpl implements Response {
     }
 
     output.flush();
-    logger.info("Send: " + statusCode);
   }
 
   @Override

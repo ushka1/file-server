@@ -3,20 +3,24 @@ package server.storage;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.logging.Logger;
 
+import server.logger.MyLogger;
 import server.utils.RandomUtils;
 import server.utils.SerializationUtils;
 
 public class IdManager implements Serializable {
 
   private static final long serialVersionUID = 1L;
-  private static final String FILENAME = "data/id.data";
+
+  private static final String DATA_FILENAME = "data/id.data";
+  private static final Logger logger = MyLogger.getInstance();
   private static IdManager instance;
 
   public static IdManager getInstance() {
     if (instance == null) {
       try {
-        instance = (IdManager) SerializationUtils.deserialize(FILENAME);
+        instance = (IdManager) SerializationUtils.deserialize(DATA_FILENAME);
       } catch (IOException | ClassNotFoundException e) {
         instance = new IdManager();
       }
@@ -24,8 +28,6 @@ public class IdManager implements Serializable {
 
     return instance;
   }
-
-  /* ============================================================ */
 
   private HashMap<String, String> map = new HashMap<>();
 
@@ -35,8 +37,9 @@ public class IdManager implements Serializable {
 
   private void saveState() {
     try {
-      SerializationUtils.serialize(this, FILENAME);
+      SerializationUtils.serialize(this, DATA_FILENAME);
     } catch (IOException e) {
+      logger.severe("IdManager error: " + e.getMessage());
       e.printStackTrace();
     }
   }

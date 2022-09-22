@@ -1,5 +1,7 @@
 package client.implementations;
 
+import static client.config.Constants.POST;
+
 import java.io.BufferedInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
@@ -57,7 +59,7 @@ public class RequestImpl implements Request {
     }
     output.writeUTF("");
 
-    if (method.equals("POST") && file != null && file.exists()) {
+    if (method.equals(POST) && file != null && file.exists()) {
       try (var fileInput = new BufferedInputStream(new FileInputStream(file))) {
         int bytesRead = 0;
         byte[] buffer = new byte[4 * 1024];

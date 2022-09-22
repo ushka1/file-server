@@ -17,8 +17,6 @@ public class I18n {
     return instance;
   }
 
-  /* ============================================================ */
-
   private Map<Locale, ResourceBundle> bundles = new HashMap<>();
 
   private I18n() {

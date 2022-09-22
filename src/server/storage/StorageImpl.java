@@ -29,10 +29,11 @@ public class StorageImpl implements Storage, Serializable {
       return null;
 
     File file = new File(STORAGE_DIR, filename);
-    if (file.exists())
+    if (file.exists()) {
       return file;
-    else
+    } else {
       return null;
+    }
   }
 
   @Override

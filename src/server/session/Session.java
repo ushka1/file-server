@@ -28,7 +28,7 @@ public class Session implements Runnable {
 
   @Override
   public void run() {
-    logger.info("New client connected!");
+    logger.info("New client connected.");
 
     try (var input = new DataInputStream(new BufferedInputStream(socket.getInputStream(), 4096));
         var output = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream(), 4096))) {
@@ -37,9 +37,9 @@ public class Session implements Runnable {
       handleConnection(input, output);
 
     } catch (EOFException e) {
-      logger.info("Client disconnected!");
+      logger.info("Client disconnected.");
     } catch (IOException | IllegalArgumentException e) {
-      logger.severe(e.getMessage());
+      logger.severe("Session error: " + e.getMessage());
       e.printStackTrace();
     } finally {
       closeSocket();
@@ -64,8 +64,12 @@ public class Session implements Runnable {
       try (Request req = new RequestImpl(builder);
           Response res = new ResponseImpl(output)) {
 
+        logger.info("Received: " + req.getMethod() + " " + req.getPath());
+
         router.route(req, res);
         res.send();
+
+        logger.info("Sent: " + res.getStatusCode());
       }
     }
   }
@@ -74,10 +78,10 @@ public class Session implements Runnable {
     try {
       socket.close();
     } catch (IOException e) {
-      logger.severe(e.getMessage());
+      logger.severe("Socket closing error: " + e.getMessage());
       e.printStackTrace();
     } finally {
-      logger.info("Socket closed!");
+      logger.info("Socket connection closed.");
     }
   }
 

@@ -1,5 +1,7 @@
 package server.session;
 
+import static server.config.Constants.POST;
+
 import java.io.BufferedOutputStream;
 import java.io.DataInputStream;
 import java.io.File;
@@ -55,13 +57,13 @@ public class RequestParser {
     while (!(param = input.readUTF()).equals(""))
       parseParam(param);
 
-    if (method.equals("POST"))
+    if (method.equals(POST))
       receiveFile();
   }
 
   private void parseStartLine(String startLine) {
     if (!startLine.matches(START_REGEX))
-      throw new IllegalArgumentException("Invalid start-line \"" + startLine + "\"");
+      throw new IllegalArgumentException("Invalid start-line: " + startLine);
 
     String[] parts = startLine.split(" ");
     method = parts[0].toUpperCase();
@@ -70,7 +72,7 @@ public class RequestParser {
 
   private void parseParam(String param) {
     if (!param.matches(PARAM_REGEX))
-      throw new IllegalArgumentException("Invalid param \"" + param + "\"");
+      throw new IllegalArgumentException("Invalid param: " + param);
 
     String[] parts = param.split("=");
     params.put(parts[0], parts[1]);
