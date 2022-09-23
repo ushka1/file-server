@@ -89,7 +89,6 @@ public class DeleteFileFlow extends Flow {
   private boolean sendRequest() {
     try {
       req.send();
-      printer.info("Request sent.");
     } catch (IOException e) {
       printer.error("Request error: " + e.getMessage());
       return false;
@@ -101,7 +100,6 @@ public class DeleteFileFlow extends Flow {
   private boolean receiveResponse() {
     try {
       res.receive();
-      printer.info("Response received.");
     } catch (IOException e) {
       printer.error("Response error: " + e.getMessage());
       return false;
