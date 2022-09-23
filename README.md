@@ -6,7 +6,11 @@ Simple file server with console client. Server is able to handle multiple connec
 
 ## Requirements
 
-- Java version: `18`
+- `java 18`,
+- `junit-4.13.2.jar` (only for testing),
+- `hamcrest-core-1.3.jar` (only for testing).
+
+Jar files should stay in `/lib` directory.
 
 ## Setup
 
@@ -32,32 +36,8 @@ These locations can be customized under `src/server/config/Constants.java` and `
 1. Add some files under newly created `data/client` directory.
 1. Now you can interact with server using client.
 
-## Request Structure
+## PS
 
-```
-GET <path>
-<param>=<value>
-<param>=<value>
-...
-<param>=<value>
+Some notes about client-server communication can be found under [notes.md](./notes.md).
 
-```
-
-```
-DELETE <path>
-<param>=<value>
-<param>=<value>
-...
-<param>=<value>
-
-```
-
-```
-POST <path>
-<param>=<value>
-<param>=<value>
-...
-<param>=<value>
-
-<bytes>
-```
+Roadmap can be found under [todo.md](./todo.md).
