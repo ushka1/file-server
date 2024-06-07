@@ -1,3 +1,5 @@
+# Roadmap
+
 ## In Development
 
 ## To Do
@@ -17,7 +19,7 @@
 
 ## Done
 
-- Detect disconnect https://www.alpharithms.com/detecting-client-disconnections-java-sockets-091416/.
+- Detect disconnect <https://www.alpharithms.com/detecting-client-disconnections-java-sockets-091416/>.
 - Rework request parsing.
 - Add build and run scripts.
 - Add logger.
